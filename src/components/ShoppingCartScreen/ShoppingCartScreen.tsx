@@ -5,31 +5,40 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import CartListItem from '../CartListItem/CartListItem';
-import cart from '../../data/cart';
+} from "react-native";
+import CartListItem from "../CartListItem/CartListItem";
+import { useSelector, UseSelector } from "react-redux";
+import {
+  cartTotal,
+  selectSubtotal,
+  seletDeliveryPrice,
+} from "../../store/cartSlice";
 
 const ShoppingCart = () => {
+  const cartItems = useSelector((state) => state?.cart.items);
+  const subtotal = useSelector(selectSubtotal);
+  const deliveryPrice = useSelector(seletDeliveryPrice);
+  const cartTotalPrice = useSelector(cartTotal);
   return (
     <>
       <SafeAreaView>
         <FlatList
-          data={cart}
-          renderItem={({item}) => <CartListItem cartItem={item} />}
+          data={cartItems}
+          renderItem={({ item }) => <CartListItem cartItem={item} />}
           // eslint-disable-next-line react/no-unstable-nested-components
           ListFooterComponent={() => (
             <View style={styles.totalsContainer}>
               <View style={styles.row}>
                 <Text style={styles.text}>Subtotal</Text>
-                <Text style={styles.text}>410,00 US$</Text>
+                <Text style={styles.text}>{subtotal} US$</Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.text}>Delivery</Text>
-                <Text style={styles.text}>16,50 US$</Text>
+                <Text style={styles.text}>{deliveryPrice} US$</Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.textBold}>Total</Text>
-                <Text style={styles.textBold}>426,50 US$</Text>
+                <Text style={styles.textBold}>{cartTotalPrice} US$</Text>
               </View>
             </View>
           )}
@@ -46,21 +55,21 @@ const styles = StyleSheet.create({
   totalsContainer: {
     margin: 20,
     paddingTop: 10,
-    borderColor: 'gainsboro',
+    borderColor: "gainsboro",
     borderTopWidth: 1,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginVertical: 2,
   },
   text: {
     fontSize: 16,
-    color: 'gray',
+    color: "gray",
   },
   textBold: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   //   footer: {
   //     position: "absolute",
@@ -72,18 +81,18 @@ const styles = StyleSheet.create({
   //     padding: 20,
   //   },
   button: {
-    backgroundColor: 'black',
-    position: 'absolute',
+    backgroundColor: "black",
+    position: "absolute",
     bottom: 30,
-    width: '90%',
-    alignSelf: 'center',
-    alignItems: 'center',
+    width: "90%",
+    alignSelf: "center",
+    alignItems: "center",
     padding: 20,
     borderRadius: 100,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '500',
+    color: "white",
+    fontWeight: "500",
     fontSize: 16,
   },
 });
